@@ -1,5 +1,5 @@
 # Database Conception
-This is a work of the database couse that consists of the design of a relational database going through all its stages.
+This is a work of the database course that consists of the design of a relational database going through all its stages.
 
 ## Problema
 O seu grupo foi contratado para modelar um banco de dados relacional
