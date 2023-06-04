@@ -1,0 +1,2 @@
+INSERT INTO categoria (nome, descricao) VALUES ("normal", "Pokémon com características comuns, sem afinidade elemental específica. São versáteis e adaptáveis, apresentando uma ampla variedade de movimentos.");
+INSERT INTO categoria (nome, descricao) VALUES ("lendário", "Pokémon raros e poderosos, muitas vezes associados a lendas e mitos. Possuem estatísticas excepcionais e habilidades únicas. São considerados únicos e geralmente desempenham um papel especial na história do mundo Pokémon.");
