@@ -147,12 +147,13 @@ with open(r"H:\repositories\database-conception\dataset\DATASET_pokemon.csv", "r
             pokemon.tipo_2 = cursor.fetchone()[0]
             print(f"{pokemon.tipo_2}")
 
-        query = "SELECT habilidade_id FROM habilidade WHERE nome = %s"
-        values = [pokemonCSV.habilidade_1]
-        cursor.execute(query, values)
-        #print(f"valor retornado{cursor.fetchone()}")
-        pokemon.habilidade_1 = cursor.fetchone()[0]
-        #print(f"PRINT DE TESTE{pokemon.habilidade_1}")
+        if(pokemonCSV.habilidade_1 != "" ):
+            query = "SELECT habilidade_id FROM habilidade WHERE nome = %s"
+            values = [pokemonCSV.habilidade_1]
+            cursor.execute(query, values)
+            #print(f"valor retornado{cursor.fetchone()}")
+            pokemon.habilidade_1 = cursor.fetchone()[0]
+            #print(f"PRINT DE TESTE{pokemon.habilidade_1}")
 
         #print("ANTES DO NULO")
         if(pokemonCSV.habilidade_2 != "" ):
