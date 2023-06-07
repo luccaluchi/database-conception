@@ -115,7 +115,6 @@ with open(r"H:\repositories\database-conception\dataset\DATASET_pokemon.csv", "r
         pokemon.defesa = pokemonCSV.defesa
         pokemon.velocidade = pokemonCSV.velocidade
 
-        #pokemon.imprimir_atributos()
 
        
         query = "SELECT especie_id FROM especie WHERE nome = %s"
@@ -210,52 +209,3 @@ with open(r"H:\repositories\database-conception\dataset\DATASET_pokemon.csv", "r
         print("---------------------------------------------------------")
         print("---------------------------------------------------------")
         print("\n")
-
-        
-
-
-
-        
-
-
-
-
-
-
-
-
-'''
-        count += 1
-        if count == 7:
-            break
-'''
-
-        
-
-
-
-'''
-        INSERT INTO pokemon_tipo (pokemon_pokemon_id, tipo_tipo_id, nivel) VALUES ( ,(SELECT tipo_id FROM tipo WHERE nome = "", )
-
-
-
-
-
-        
-        # Executar uma consulta SQL para inserir os dados no banco de dados
-        query = "INSERT INTO tabela (campo1, campo2) VALUES (%s, %s)"
-
-        values = (campo1, campo2)
-        cursor.execute(query, values)
-
-INSERT INTO pokemon ( pokemon_id, nome, peso, valor_ataque, valor_defesa, velocidade_media, especie_especie_id, categoria_categoria_id) 
-VALUES ( %, %, %, %, %, %,);
-
-INSERT INTO pokemon_tipo (pokemon_pokemon_id, tipo_tipo_id, nivel) VALUES ( ,(SELECT tipo_id FROM tipo WHERE nome = "", );
-
-
-VALUES ( pokemon_id, "nome", peso, valor_ataque, valor_defesa, velocidade_media, (SELECT especie_id FROM especie WHERE nome = ""), (SELECT categoria_id FROM categoria WHERE nome = ""));
-
-        # id	name	weight_kg	attack	defense	speed	species	status		type_1	type_2	ability_1	ability_2 habilidade_oculta
-
-'''
