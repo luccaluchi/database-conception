@@ -22,6 +22,10 @@ INNER JOIN categoria c ON p.categoria_categoria_id = c.categoria_id
 INNER JOIN especie e ON p.especie_especie_id = e.especie_id WHERE p.nome LIKE "Mega%" AND p.valor_ataque BETWEEN 30 and 150;
 
 -- junção de 2 ou mais tabelas, usando os operadores IN e IS NULL/IS NOT NULL
+SELECT p.nome, h.nome AS "habilidade oculta"
+FROM pokemon p
+INNER JOIN pokemon_habilidade ph ON p.pokemon_id = ph.pokemon_pokemon_id
+INNER JOIN habilidade h ON ph.habilidade_habilidade_id = h.habilidade_id WHERE ph.oculta IS NOT NULL;
 
 
 

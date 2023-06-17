@@ -245,8 +245,9 @@ VALUES ("Overgrow"), ("Thick Fat"), ("Blaze"), ("Tough Claws"), ("Drought"), ("T
 ("Frisk"), ("Infiltrator"), ("Stench"), ("Damp"), ("Wonder Skin"), ("Sand Force"), ("Rattled"), ("Inner Focus"), ("Chlorophyll"), ("Effect Spore"),
 ("Pickup"), ("Arena Trap"), ("Competitive");
 
-INSERT INTO categoria (nome, descricao) VALUES ("normal", "Pokémon com características comuns, sem afinidade elemental específica. São versáteis e adaptáveis, apresentando uma ampla variedade de movimentos.");
-INSERT INTO categoria (nome, descricao) VALUES ("lendário", "Pokémon raros e poderosos, muitas vezes associados a lendas e mitos. Possuem estatísticas excepcionais e habilidades únicas. São considerados únicos e geralmente desempenham um papel especial na história do mundo Pokémon.");
+INSERT INTO categoria (nome, descricao) VALUES ("Normal", "Pokémon com características comuns, sem afinidade elemental específica. São versáteis e adaptáveis, apresentando uma ampla variedade de movimentos.");
+INSERT INTO categoria (nome, descricao) VALUES ("Sub Legendary", "Pokémons que não são considerados lendários, mas ainda são raros e poderosos. Eles têm estatísticas de base mais baixas do que os lendários e geralmente não têm uma história lendária associada a eles.");
+INSERT INTO categoria (nome, descricao) VALUES ("Legendary", "Pokémon raros e poderosos, muitas vezes associados a lendas e mitos. Possuem estatísticas excepcionais e habilidades únicas. São considerados únicos e geralmente desempenham um papel especial na história do mundo Pokémon.");
 
 INSERT INTO especie (nome, descricao) VALUES
 ('Seed Pokémon', 'Pokémon que possuem características de semente, geralmente sendo a forma inicial de evolução de um Pokémon.'),

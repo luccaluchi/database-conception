@@ -2,21 +2,25 @@ import csv
 import mysql.connector
 
 conn = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="dbTXqKm&pG482QqUTr",
+    host="ondeuai.mysql.database.azure.com",
+    user="lucca",
+    password="@BGqhac%Fs3@qQSt!4",
     database="pokemon",
+    ssl_ca="{ca-cert filename}", 
+    ssl_disabled=False,
     charset="utf8"
     )
     
-
-
 cursor = conn.cursor()
 
 if(conn.is_connected):
     print("Conexão bem sucedida!")
 else:
     print("Conexão falhou")
+
+
+
+#'''
 #Nesta classe salvaramos os dados cindos do csv para trata-los.
 class PokemonCSV:
     def __init__(self, id, name, categoria, especie, tipo_1, tipo_2, peso, ataque, defesa, velocidade, habilidade_1, habilidade_2, habilidade_oculta):
@@ -82,10 +86,8 @@ class Pokemon:
         print(f"Habilidade 1: {self.habilidade_1}")
         print(f"Habilidade 2: {self.habilidade_2}")
         print(f"Habilidade Oculta: {self.habilidade_oculta}")
-    
-count = 0
 
-with open(r"H:\repositories\database-conception\dataset\DATASET_pokemon.csv", "r", encoding='utf-8') as file:
+with open(r"H:\repositories\database-conception\dataset\DATASET_pokemon1.csv", "r", encoding='utf-8') as file:
     csv_data = csv.reader(file)
     next(csv_data)  # Pular o cabeçalho, se houver
     
@@ -115,97 +117,142 @@ with open(r"H:\repositories\database-conception\dataset\DATASET_pokemon.csv", "r
         pokemon.defesa = pokemonCSV.defesa
         pokemon.velocidade = pokemonCSV.velocidade
 
-
-       
-        query = "SELECT especie_id FROM especie WHERE nome = %s"
-        values = [pokemonCSV.especie]
-        cursor.execute(query, values)
-        pokemon.especie = cursor.fetchone()[0]
-
-
-
-        query = "SELECT categoria_id FROM categoria WHERE nome = %s"
-        values = [pokemonCSV.categoria]
-        cursor.execute(query, values)
-        pokemon.categoria = cursor.fetchone()[0]
-        
-
-        query = "SELECT tipo_id FROM tipo WHERE nome = %s"
-        values = [pokemonCSV.tipo_1]
-        cursor.execute(query, values)
-        pokemon.tipo_1 = cursor.fetchone()[0]
-
-
-
-        if(pokemonCSV.tipo_2 != ""):
-            print(f"{pokemonCSV.tipo_2}")
-            print("TIPO 2")
-            query = "SELECT tipo_id FROM tipo WHERE nome = %s"
-            values = [pokemonCSV.tipo_2]
+        try:               
+            query = "SELECT pokemon_id FROM pokemon WHERE pokemon_id = %s"
+            print(f"Pokemon.id: {pokemonCSV.id}")
+            values = [pokemonCSV.id]
             cursor.execute(query, values)
-            pokemon.tipo_2 = cursor.fetchone()[0]
-            print(f"{pokemon.tipo_2}")
+            existe = cursor.fetchone()
+            cursor.nextset()
+        except Exception as e:
+            print(f"Ocorreu em verificar a existência do ID: {e}")
 
-        if(pokemonCSV.habilidade_1 != "" ):
-            query = "SELECT habilidade_id FROM habilidade WHERE nome = %s"
-            values = [pokemonCSV.habilidade_1]
-            cursor.execute(query, values)
-            #print(f"valor retornado{cursor.fetchone()}")
-            pokemon.habilidade_1 = cursor.fetchone()[0]
-            #print(f"PRINT DE TESTE{pokemon.habilidade_1}")
+        if (existe == None):
 
-        #print("ANTES DO NULO")
-        if(pokemonCSV.habilidade_2 != "" ):
-            query = "SELECT habilidade_id FROM habilidade WHERE nome = %s"
-            values = [pokemonCSV.habilidade_2]
-            cursor.execute(query, values)
-            pokemon.habilidade_2 = cursor.fetchone()[0]
-        #print("DEPOIS DO NULO")
+            try:               
+                query = "SELECT especie_id FROM especie WHERE nome = %s"
+                values = [pokemonCSV.especie]
+                cursor.execute(query, values)
+                pokemon.especie = cursor.fetchone()[0]
+                cursor.nextset()
+            except Exception as e:
+                print(f"Ocorreu um erro em SELECT espécie: {e}")
 
-        if(pokemonCSV.habilidade_oculta != "" ):
-            query = "SELECT habilidade_id FROM habilidade WHERE nome = %s"
-            values = [pokemonCSV.habilidade_oculta]
-            cursor.execute(query, values)
-            pokemon.habilidade_oculta = cursor.fetchone()[0]
-                  
-        
-        print(".........................................................")
-        
-        pokemon.imprimir_atributos()
 
-        query = "INSERT INTO pokemon (pokemon_id, nome, peso, valor_ataque, valor_defesa, velocidade_media, especie_especie_id, categoria_categoria_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-        values = [pokemon.id, pokemon.nome, pokemon.peso, pokemon.ataque, pokemon.defesa, pokemon.velocidade, pokemon.especie, pokemon.categoria]
-        cursor.execute(query, values)
+            try:
+                query = "SELECT categoria_id FROM categoria WHERE nome = %s"
+                values = [pokemonCSV.categoria]
+                cursor.execute(query, values)
+                pokemon.categoria = cursor.fetchone()[0]
+                cursor.nextset()   
+            except Exception as e:
+                print(f"Ocorreu um erro em SELECT categoria: {e}")
 
-        # Nível primário: nivel = 1;
-        query = "INSERT INTO pokemon_tipo (pokemon_pokemon_id, tipo_tipo_id, nivel) VALUES (%s, %s, %s)"
-        values = [pokemon.id, pokemon.tipo_1, 1]
-        cursor.execute(query, values)
 
-        # Nível secundário: nivel = 0;
-        if (pokemon.tipo_2):
-            query = "INSERT INTO pokemon_tipo (pokemon_pokemon_id, tipo_tipo_id, nivel) VALUES (%s, %s, %s)"
-            values = [pokemon.id, pokemon.tipo_2, 0]
-            cursor.execute(query, values)
+            try:
+                query = "SELECT tipo_id FROM tipo WHERE nome = %s"
+                values = [pokemonCSV.tipo_1]
+                cursor.execute(query, values)
+                pokemon.tipo_1 = cursor.fetchone()[0]
+                cursor.nextset()
+            except Exception as e:
+                print(f"Ocorreu um erro em SELECT tipo 1: {e}")
 
-        # Estruturas condicionais para criar tabelas de associação se nescesáirio
-        if (pokemon.habilidade_1):
-            query = "INSERT INTO pokemon_habilidade (pokemon_pokemon_id, habilidade_habilidade_id, oculta) VALUES (%s, %s, %s)"
-            values = [pokemon.id, pokemon.habilidade_1, 0]
-            cursor.execute(query, values)
+            try:    
+                if(pokemonCSV.tipo_2 != ""):
+                    query = "SELECT tipo_id FROM tipo WHERE nome = %s"
+                    values = [pokemonCSV.tipo_2]
+                    cursor.execute(query, values)
+                    pokemon.tipo_2 = cursor.fetchone()[0]
+                    cursor.nextset()   
+            except Exception as e:
+                print(f"Ocorreu um erro em SELECT tipo 2: {e}")
 
-        if (pokemon.habilidade_2):
-            query = "INSERT INTO pokemon_habilidade (pokemon_pokemon_id, habilidade_habilidade_id, oculta) VALUES (%s, %s, %s)"
-            values = [pokemon.id, pokemon.habilidade_2, 0]
-            cursor.execute(query, values)
 
-        if (pokemon.habilidade_oculta):
-            query = "INSERT INTO pokemon_habilidade (pokemon_pokemon_id, habilidade_habilidade_id, oculta) VALUES (%s, %s, %s)"
-            values = [pokemon.id, pokemon.habilidade_oculta, 1]
-            cursor.execute(query, values)
+            try:
+                if(pokemonCSV.habilidade_1 != "" ):
+                    query = "SELECT habilidade_id FROM habilidade WHERE nome = %s"
+                    values = [pokemonCSV.habilidade_1]
+                    cursor.execute(query, values)
+                    pokemon.habilidade_1 = cursor.fetchone()[0]
+                    cursor.nextset()        
+            except Exception as e:
+                print(f"Ocorreu um erro em SELECT habilidade 1: {e}")
+
+            try:
+                if(pokemonCSV.habilidade_2 != "" ):
+                    query = "SELECT habilidade_id FROM habilidade WHERE nome = %s"
+                    values = [pokemonCSV.habilidade_2]
+                    cursor.execute(query, values)
+                    pokemon.habilidade_2 = cursor.fetchone()[0]
+                    cursor.nextset()  
+            except Exception as e:
+                print(f"Ocorreu um erro em SELECT habilidae 2: {e}")
             
-        conn.commit()
 
-        print("---------------------------------------------------------")
-        print("---------------------------------------------------------")
-        print("\n")
+            try:
+                if(pokemonCSV.habilidade_oculta != "" ):
+                    query = "SELECT habilidade_id FROM habilidade WHERE nome = %s"
+                    values = [pokemonCSV.habilidade_oculta]
+                    cursor.execute(query, values)
+                    pokemon.habilidade_oculta = cursor.fetchone()[0]
+                    cursor.nextset()
+            except Exception as e:
+                print(f"Ocorreu um erro em SELECT habilidade oculta: {e}")
+
+                    
+            query = "INSERT INTO pokemon (pokemon_id, nome, peso, valor_ataque, valor_defesa, velocidade_media, especie_especie_id, categoria_categoria_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+            values = [pokemon.id, pokemon.nome, pokemon.peso, pokemon.ataque, pokemon.defesa, pokemon.velocidade, pokemon.especie, pokemon.categoria]
+            cursor.execute(query, values)
+            conn.commit()
+
+
+            # Nível primário: nivel = 1;
+            query = "INSERT INTO pokemon_tipo (pokemon_pokemon_id, tipo_tipo_id, nivel) VALUES (%s, %s, %s)"
+            values = [pokemon.id, pokemon.tipo_1, 1]
+            cursor.execute(query, values)
+            conn.commit()
+
+            # Nível secundário: nivel = 0;
+            if (pokemon.tipo_2):
+                query = "INSERT INTO pokemon_tipo (pokemon_pokemon_id, tipo_tipo_id, nivel) VALUES (%s, %s, %s)"
+                values = [pokemon.id, pokemon.tipo_2, 0]
+                cursor.execute(query, values)
+                conn.commit()
+
+            # Estruturas condicionais para criar tabelas de associação se nescesáirio
+            if (pokemon.habilidade_1):
+                query = "INSERT INTO pokemon_habilidade (pokemon_pokemon_id, habilidade_habilidade_id, oculta) VALUES (%s, %s, %s)"
+                values = [pokemon.id, pokemon.habilidade_1, None]
+                cursor.execute(query, values)
+                conn.commit()
+
+
+            if (pokemon.habilidade_2):
+                query = "INSERT INTO pokemon_habilidade (pokemon_pokemon_id, habilidade_habilidade_id, oculta) VALUES (%s, %s, %s)"
+                values = [pokemon.id, pokemon.habilidade_2, None]
+                cursor.execute(query, values)
+                conn.commit()
+
+            if (pokemon.habilidade_oculta):
+                query = "INSERT INTO pokemon_habilidade (pokemon_pokemon_id, habilidade_habilidade_id, oculta) VALUES (%s, %s, %s)"
+                values = [pokemon.id, pokemon.habilidade_oculta, 1]
+                cursor.execute(query, values)
+                conn.commit()
+                
+
+            print(".........................................................")
+
+            pokemon.imprimir_atributos()
+
+            print(".........................................................")
+
+
+            print("---------------------------------------------------------")
+            print("---------------------------------------------------------")
+            print("\n")
+
+cursor.close()
+conn.close()
+file.close()
+#'''
