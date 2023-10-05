@@ -1,7 +1,7 @@
 # Database Conception
 This is a work of the database course that consists of the design of a relational database going through all its stages.
 
-## Problema
+## Problem
 O seu grupo foi contratado para modelar um banco de dados relacional
 para um jogo, que inclui um catálogo de Pokémons. Para tanto, vocês precisam
 seguir a seguinte especificação para criar uma Pokédex, isto é, uma enciclopédia
