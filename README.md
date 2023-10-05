@@ -1,5 +1,5 @@
 # Database Conception
-This is a project for a database course that consists of the design of a relational database going through all its stages. In this work, I used Python to read, process and validate information from a CSV file and populete a MySQL database.
+This is a Project for a database course that encompasses the entire process of designing a relational database. In this Project I utitilized Python to read, process and validate informations from a CVS file, then populated a Mysql database with this data.
 
 ## Problem
 O seu grupo foi contratado para modelar um banco de dados relacional
